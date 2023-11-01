@@ -1,98 +1,117 @@
 ﻿using System;
-namespace lab2_task1
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace lab2_task2
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {
-
-            MyMatrix m1 = new MyMatrix(2, 5);
-            for (int i = 0; i < 2; i++)
+            int choice1;
+            do
             {
-                for (int j = 0; j < 5; j++)
+                Console.WriteLine("Введiть кiлькiсть дробiв: (1 або 2) aбо цифру 3 для виконання методiв CalcExpr1 та CalcExpr2\nВведiть 0, якщо бажаєте закрити консоль");
+                choice1 = int.Parse(Console.ReadLine());
+                switch (choice1)
                 {
-                    m1[i, j] = 1;
+                    case 1:
+                        Console.WriteLine("Введiть чисельник i знаменник дробу через enter");
+                        long nom = long.Parse(Console.ReadLine());
+                        long denom = long.Parse(Console.ReadLine());
+                        if (denom != 0)
+                        {
+                            MyFrac frac = new MyFrac(nom, denom);
+                            Console.WriteLine("Введiть яку задачу виконати: \n1 - Видiлити цiлу частину\n2 - Сформуватиме дiйсне значення дробу");
+                            int choice2 = int.Parse(Console.ReadLine());
+                            switch (choice2)
+                            {
+                                case 1:
+                                    Console.WriteLine(MyFrac.ToStringWithIntegerPart(frac));
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Дiйсне значення дробу:\n{0}", MyFrac.DoubleValue(frac));
+                                    break;
+                                default:
+                                    Console.WriteLine("Введiть число з перелiчених");
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Знаменник не може дорівнювати 0, спробуйте ще раз");
+                        }
+                        break;
+                    case 2:
+                        Console.WriteLine($"Введiть чисельник i знаменник 1-ого дробу через enter");
+                        long nom1 = long.Parse(Console.ReadLine());
+                        long denom1 = long.Parse(Console.ReadLine());
+                        Console.WriteLine($"Введiть чисельник i знаменник 2-ого дробу через enter");
+                        long nom2 = long.Parse(Console.ReadLine());
+                        long denom2 = long.Parse(Console.ReadLine());
+                        if (denom1 != 0 && denom2 != 0)
+                        {
+                            MyFrac f1 = new MyFrac(nom1, denom1);
+                            MyFrac f2 = new MyFrac(nom2, denom2);
+                            Console.WriteLine("Введiть яку задачу виконати: \n1 - Сума дробів\n2 - Рiзниця дробiв\n3 - Добуток дробiв\n4 - Частка");
+                            int choice3 = int.Parse(Console.ReadLine());
+                            switch (choice3)
+                            {
+                                case 1:
+                                    Console.WriteLine("Сума дробiв:");
+                                    Console.WriteLine(MyFrac.Plus(f1, f2));
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Різниця дробiв:");
+                                    Console.WriteLine(MyFrac.Minus(f1, f2));
+                                    break;
+                                case 3:
+                                    Console.WriteLine("Добуток дробiв:");
+                                    Console.WriteLine(MyFrac.Multiply(f1, f2));
+                                    break;
+                                case 4:
+                                    Console.WriteLine("Частка:");
+                                    Console.WriteLine(MyFrac.Divide(f1, f2));
+                                    break;
+                                default:
+                                    Console.WriteLine("Введiть число з перелічених");
+                                    break;
+
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Знаменник в якомусь дробi дорівнює 0, отже дрiб не може iснувати, спробуйте ще раз");
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine("Оберiть, який метод виконати\n1 - CalcExpr1\n2 - CalcExpr2");
+                        int choice4 = int.Parse(Console.ReadLine());
+                        switch (choice4)
+                        {
+                            case 1:
+                                Console.WriteLine("Введiть кiлькiсть циклiв:");
+                                int n = int.Parse(Console.ReadLine());
+                                Console.WriteLine(MyFrac.CalcExpr1(n));
+                                break;
+                            case 2:
+                                Console.WriteLine("Введiть кiлькiсть циклiв:");
+                                int n1 = int.Parse(Console.ReadLine());
+                                Console.WriteLine(MyFrac.CalcExpr2(n1));
+                                break;
+                            default:
+                                Console.WriteLine("Введiть число з перелiчених");
+                                break;
+
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Введiть число з перелiчених");
+                        break;
                 }
-            }
-            Console.WriteLine($"m1:\n{m1}");
-
-            MyMatrix m2 = new MyMatrix(4, 7);
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 7; j++)
-                {
-                    m2[i, j] = 2;
-                }
-            }
-            Console.WriteLine($"m2:\n{m2}");
-
-            //copy
-            m1 = new MyMatrix(m2);
-            Console.WriteLine($"Скопійована m2 у m1:\n{m1}");
-
-            Console.WriteLine("Перевірка двовимірного масиву\nВведiть кiлькiсть рядків: ");
-            int ryad = int.Parse(Console.ReadLine());
-            Console.WriteLine("Введiть кiлькiсть стовпчиків: ");
-            int stvp = int.Parse(Console.ReadLine());
-            double[,] arr = new double[ryad, stvp];
-            Random rand = new Random();
-            for (int i = 0; i < ryad; i++)
-            {
-                for (int j = 0; j < stvp; j++)
-                {
-                    arr[i, j] = rand.Next(-100, 100);
-                }
-            }
-            m1 = new MyMatrix(arr);
-            Console.WriteLine($"Матриця з двовимірного:\n{m1}");
-
-            Console.WriteLine("Введiть кiлькiсть рядків: ");
-            int ryad1 = int.Parse(Console.ReadLine());
-            double[][] jaggedArray = new double[ryad1][];
-            for (int i = 0; i < ryad1; i++)
-            {
-                Console.Write($"Введiть кiлькiсть елементiв у {i + 1}-му рядку: ");
-                int colCount = int.Parse(Console.ReadLine());
-                jaggedArray[i] = new double[colCount];
-                for (int j = 0; j < colCount; j++)
-                {
-                    Console.Write($"Введiть {j + 1}-й елемент для {i + 1}-го рядка: ");
-                    jaggedArray[i][j] = double.Parse(Console.ReadLine());
-                }
-            }
-            m1 = new MyMatrix(jaggedArray);
-            Console.WriteLine($"Матриця с зубчастого:\n{m1}");
-
-
-
-            int size = 3;
-            string[] stringArray = new string[size];
-            stringArray[0] = "1 2 4";
-            stringArray[1] = "4 2 5";
-            stringArray[2] = "1 2 3";
-            m1 = new MyMatrix(stringArray);
-            Console.WriteLine($"Матриця с масиву рядків:\n{m1}");
-
-            string elems = "2    3\n 4\t\t 5\n 23 4 2 1\n 73    2    1   5";
-            MyMatrix m5 = new MyMatrix(elems);
-            Console.WriteLine($"Матриця з рядка:\n{m5}");
-
-
-            string elems2 = "1 2\n-1 4";
-            MyMatrix mnozh1 = new MyMatrix(elems2);
-            string elems3 = "3 -2 1\n 4 2 0";
-            MyMatrix mnozh2 = new MyMatrix(elems3);
-            Console.WriteLine($"Результат множення:\n{mnozh1 * mnozh2}");
-            //результат 11 2 1 \n 13 10 -1
-
-            string elems4 = "2 3 1\n4 6 3";
-            MyMatrix dod1 = new MyMatrix(elems4);
-            string elems5 = "2 3 1\n 2 4 3";
-            MyMatrix dod2 = new MyMatrix(elems5);
-            Console.WriteLine($"Результат додавання:\n{dod1 + dod2}");
-
-            m5.TransposeMe();
-            Console.WriteLine($"Транспонована матриця:\n{m5}");
+            } while (choice1 != 0);
         }
     }
 }
